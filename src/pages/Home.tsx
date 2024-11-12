@@ -1,3 +1,13 @@
+import { TaskHeader } from '../components/TaskHeader';
+import { TaskList } from '../components/TaskList';
+
 export function Home() {
-  return <h1>home works!</h1>;
+  return (
+    <section className='home-container'>
+      <div className='content'>
+        <TaskHeader />
+        <TaskList />
+      </div>
+    </section>
+  );
 }
