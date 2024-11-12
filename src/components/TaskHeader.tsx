@@ -10,7 +10,7 @@ export const TaskHeader = () => {
       <h1 className='title'>todo list</h1>
 
       <div className='actions'>
-        <Button text='add task' className='button-text' callback={clickButton} />
+        <Button text='add task' className='button-text' onClick={clickButton} />
 
         <select name='filterTask' id='filterTask'>
           <option value=''>all</option>
