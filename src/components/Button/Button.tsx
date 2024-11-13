@@ -1,18 +1,15 @@
-export type ButtonProps = {
-  img?: string;
-  text?: string;
-  icon?: string;
-  altText?: string;
-  className?: string;
-  onClick?: () => void;
-};
+import { ButtonProps } from '../../types/button';
 
-export const Button = (props: Readonly<ButtonProps>) => {
+export const Button: React.FC<ButtonProps> = ({ img, icon, text, altText, customClass, onClick }) => {
+  const handleOnClick = () => {
+    onClick();
+  };
+
   return (
-    <button className={`${props?.className ?? 'default'}`} onClick={props?.onClick ?? undefined}>
-      {props?.text && <span>{props?.text}</span>}
-      {props?.img && <img className='img' src={props?.img} alt={props?.altText} />}
-      {props?.icon === 'edit' && (
+    <button className={`${customClass ?? 'default'}`} onClick={() => handleOnClick()}>
+      {text && <span>{text}</span>}
+      {img && <img className='img' src={img} alt={altText} />}
+      {icon === 'edit' && (
         <svg className='svg' width='800px' height='800px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
           <path
             fillRule='evenodd'
@@ -22,7 +19,7 @@ export const Button = (props: Readonly<ButtonProps>) => {
           />
         </svg>
       )}
-      {props?.icon === 'delete' && (
+      {icon === 'delete' && (
         <svg className='svg' fill='currentColor' width='800px' height='800px' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' id='delete'>
           <path d='M17,4V5H15V4H9V5H7V4A2,2,0,0,1,9,2h6A2,2,0,0,1,17,4Z'></path>
           <path d='M20,6H4A1,1,0,0,0,4,8H5V20a2,2,0,0,0,2,2H17a2,2,0,0,0,2-2V8h1a1,1,0,0,0,0-2Z'></path>
