@@ -18,6 +18,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onClickEditTask, onCli
   };
 
   const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('pt-BR');
+  const formatTime = (dateString: string) => new Date(dateString).toLocaleTimeString('pt-BR', { hour12: true });
 
   return (
     <div className='task-item-container'>
@@ -26,7 +27,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onClickEditTask, onCli
         <span className='info'>
           <span className={`title ${checked ? 'completed' : ''}`}>{task?.title}</span>
           <span className='subtitle'>{task?.subtitle}</span>
-          <span className='details'>{`${task?.time}, ${formatDate(task?.date)}`}</span>
+          <span className='details'>{`${formatTime(task?.date)}, ${formatDate(task?.date)}`}</span>
         </span>
       </button>
       <div className='actions'>

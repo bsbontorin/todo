@@ -1,10 +1,15 @@
+import { FormDataAddTask } from './modal';
+
 export interface TaskProps {
   id: string;
   date: string;
-  time: string;
   title: string;
   subtitle: string;
   status: number;
+}
+
+export interface TaskHeaderProps {
+  onClickSubmitAddTask: (formData: FormDataAddTask) => void;
 }
 
 export interface TaskItemProps {
