@@ -1,30 +1,32 @@
-import { TaskListProps } from '../../../types/todo-list';
+import { TaskListProps, TaskProps } from '../../../types/todo-list';
 import { TaskItem } from '../TaskItem/TaskItem';
 
 export const TaskList: React.FC<TaskListProps> = ({ tasks, onClickEditTask, onClickDeleteTask, onClickToggleStatus }) => {
-  const handleOnClickEditTask = () => {
-    onClickEditTask?.();
+  const handleOnClickEditTask = (task: TaskProps) => {
+    onClickEditTask(task);
   };
 
   const handleOnClickDeleteTask = (id: string) => {
-    onClickDeleteTask?.(id);
+    onClickDeleteTask(id);
   };
 
   const handleOnClickToggleStatus = (id: string) => {
-    onClickToggleStatus?.(id);
+    onClickToggleStatus(id);
   };
 
   return (
     <div className='task-list-container'>
-      {tasks.map((task) => (
-        <TaskItem
-          key={task?.id}
-          task={task}
-          onClickEditTask={() => handleOnClickEditTask()}
-          onClickDeleteTask={(id) => handleOnClickDeleteTask(id)}
-          onClickToggleStatus={(id) => handleOnClickToggleStatus(id)}
-        />
-      ))}
+      {!!tasks?.length &&
+        tasks.map((task) => (
+          <TaskItem
+            key={task?.id}
+            task={task}
+            onClickEditTask={(task) => handleOnClickEditTask(task)}
+            onClickDeleteTask={(id) => handleOnClickDeleteTask(id)}
+            onClickToggleStatus={(id) => handleOnClickToggleStatus(id)}
+          />
+        ))}
+      {!tasks?.length && <span>Nenhuma task aqui</span>}
     </div>
   );
 };

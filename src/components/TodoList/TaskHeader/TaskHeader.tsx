@@ -5,7 +5,7 @@ import { TaskHeaderProps } from '../../../types/todo-list';
 import { Button } from '../../Button/Button';
 import { Modal } from '../../Modal/Modal';
 
-export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickSubmitAddTask }) => {
+export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickAddTask }) => {
   // * VARIABLES
   const [isFormValid, setIsFormValid] = useState(false);
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
@@ -14,13 +14,17 @@ export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickSubmitAddTask }) 
     name: '',
     datetime: '',
     description: '',
+    status: 0,
   });
 
   // * ARROWs
   const reset = () => {
     localStorage.setItem('tasks', '');
     window.location.reload();
-    setIsModalAddTaskOpen(false);
+  };
+
+  const clearFormData = () => {
+    setFormData({ name: '', datetime: '', description: '', status: 0 });
   };
 
   const handleOnClickModalAddTask = () => {
@@ -28,32 +32,26 @@ export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickSubmitAddTask }) 
   };
 
   const handleOnCloseModalAddTask = () => {
+    clearFormData();
     setIsModalAddTaskOpen(false);
   };
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const validateForm = () => {
-    const isValid = Object.values(formData).every((value) => value.trim() !== '');
-    setIsFormValid(isValid);
+    setIsFormValid(Object?.values(formData)?.every((value) => String(value)?.trim() !== ''));
   };
   useEffect(() => validateForm(), [formData]);
 
   const handleOnClickSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event?.preventDefault();
-    onClickSubmitAddTask(formData);
 
-    setFormData({
-      name: '',
-      datetime: '',
-      description: '',
-    });
+    onClickAddTask({ ...formData, status: 0 });
+
+    clearFormData();
     setIsModalAddTaskOpen(false);
   };
 
@@ -75,7 +73,7 @@ export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickSubmitAddTask }) 
         </div>
       </div>
 
-      {/* form add taks - modal */}
+      {/* form add task - modal */}
       <Modal title='Cadastrar Task' subtitle='Informe os dados da task' isOpen={isModalAddTaskOpen} onClose={() => handleOnCloseModalAddTask()}>
         <form className='form'>
           <label className='label'>

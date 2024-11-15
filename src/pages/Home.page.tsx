@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { TaskHeader } from '../components/TodoList/TaskHeader/TaskHeader';
 import { TaskList } from '../components/TodoList/TaskList/TaskList';
-import { baseTasks } from '../components/TodoList/TaskList/TaskList.constant';
+import { baseTasks } from '../components/TodoList/TaskList/tasklist.constant';
 import { DefaultLayout } from '../layout/DefaultLayout';
-import { TaskProps } from '../types/todo-list';
 import { FormDataAddTask } from '../types/modal';
+import { TaskProps } from '../types/todo-list';
 
 export const Home: React.FC = () => {
   const [tasks, setTasks] = useState<Array<TaskProps>>(() => {
@@ -14,23 +14,12 @@ export const Home: React.FC = () => {
   });
   useEffect(() => localStorage.setItem('tasks', JSON.stringify(tasks)), [tasks]);
 
-  const handleOnClickSubmitAddTask = (formData: FormDataAddTask) => {
-    setTasks([
-      ...tasks,
-      {
-        id: String(tasks?.length),
-        date: formData.datetime,
-        title: formData?.name,
-        subtitle: formData?.description,
-        status: 0,
-      },
-    ]);
-
-    console.log('formData :>> ', formData);
+  const handleOnClickAddTask = (data: FormDataAddTask) => {
+    setTasks((prevTasks) => [...prevTasks, { id: String(prevTasks?.length), ...data }]);
   };
 
-  const handleOnClickEditTask = () => {
-    console.log('edit');
+  const handleOnClickEditTask = (updatedTask: TaskProps) => {
+    setTasks(tasks?.map((task) => (task?.id === updatedTask?.id ? { ...task, ...updatedTask } : task)));
   };
 
   const handleOnClickDeleteTask = (id: string) => {
@@ -49,10 +38,10 @@ export const Home: React.FC = () => {
     <DefaultLayout>
       <section className='home-container'>
         <div className='content'>
-          <TaskHeader onClickSubmitAddTask={(formData) => handleOnClickSubmitAddTask(formData)} />
+          <TaskHeader onClickAddTask={(formData) => handleOnClickAddTask(formData)} />
           <TaskList
             tasks={getVisibleTasks()}
-            onClickEditTask={() => handleOnClickEditTask()}
+            onClickEditTask={(task) => handleOnClickEditTask(task)}
             onClickDeleteTask={(id) => handleOnClickDeleteTask(id)}
             onClickToggleStatus={(id) => handleOnClickToggleStatus(id)}
           />

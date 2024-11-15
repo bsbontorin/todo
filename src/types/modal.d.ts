@@ -11,4 +11,5 @@ export interface FormDataAddTask {
   name: '';
   datetime: '';
   description: '';
+  status: number;
 }

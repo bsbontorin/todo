@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { ModalProps } from '../../types/modal';
 import { Button } from '../Button/Button';
@@ -6,10 +6,13 @@ import { Button } from '../Button/Button';
 export const Modal: React.FC<ModalProps> = ({ title, subtitle, children, isOpen, onClose }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  React.useEffect(() => {
-    if (isOpen) dialogRef?.current?.showModal();
+  const [modalState, setModalState] = useState<boolean>(isOpen);
+  useEffect(() => setModalState(isOpen), [isOpen]);
+
+  useEffect(() => {
+    if (modalState) dialogRef?.current?.showModal();
     else dialogRef?.current?.close();
-  }, [isOpen]);
+  }, [modalState]);
 
   const handleOnClickOnClose = () => {
     onClose();
