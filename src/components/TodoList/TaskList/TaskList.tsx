@@ -26,7 +26,7 @@ export const TaskList: React.FC<TaskListProps> = ({ tasks, onClickEditTask, onCl
             onClickToggleStatus={(id) => handleOnClickToggleStatus(id)}
           />
         ))}
-      {!tasks?.length && <span>Nenhuma task aqui</span>}
+      {!tasks?.length && <span>Nenhuma tarefa aqui. Clique em "Add Task"</span>}
     </div>
   );
 };

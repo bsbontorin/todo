@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 
 import { TaskHeader } from '../components/TodoList/TaskHeader/TaskHeader';
 import { TaskList } from '../components/TodoList/TaskList/TaskList';
-import { baseTasks } from '../components/TodoList/TaskList/tasklist.constant';
+import { baseTasks } from '../components/TodoList/TaskList/TaskList.constant';
 import { DefaultLayout } from '../layout/DefaultLayout';
 import { FormDataAddTask } from '../types/modal';
 import { TaskProps } from '../types/todo-list';
 
 export const Home: React.FC = () => {
+  const [filterStatus, setFilterStatus] = useState<Array<number>>([]);
+
   const [tasks, setTasks] = useState<Array<TaskProps>>(() => {
     const savedTasks = localStorage.getItem('tasks');
     return savedTasks ? JSON.parse(savedTasks) : baseTasks;
@@ -30,15 +32,22 @@ export const Home: React.FC = () => {
     setTasks(tasks?.map((task) => (task?.id === id ? { ...task, status: task?.status === 0 ? 1 : 0 } : task)));
   };
 
+  const handleOnClickFilterByStatus = (filterStatus: Array<number>) => {
+    setFilterStatus(filterStatus);
+  };
+
   const getVisibleTasks = () => {
-    return tasks?.filter(({ status }) => status !== 3) || [];
+    if (!filterStatus?.length) {
+      return tasks?.filter(({ status }) => status !== 3) || [];
+    }
+    return tasks?.filter(({ status }) => filterStatus?.includes(status) || (filterStatus?.includes(-1) && status !== 3)) || [];
   };
 
   return (
     <DefaultLayout>
       <section className='home-container'>
         <div className='content'>
-          <TaskHeader onClickAddTask={(formData) => handleOnClickAddTask(formData)} />
+          <TaskHeader onClickAddTask={(formData) => handleOnClickAddTask(formData)} onClickFilterByStatus={(status) => handleOnClickFilterByStatus([status])} />
           <TaskList
             tasks={getVisibleTasks()}
             onClickEditTask={(task) => handleOnClickEditTask(task)}

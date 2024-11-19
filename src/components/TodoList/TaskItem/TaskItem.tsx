@@ -7,7 +7,7 @@ import { Modal } from '../../Modal/Modal';
 
 export const TaskItem: React.FC<TaskItemProps> = ({ task, onClickEditTask, onClickDeleteTask, onClickToggleStatus }) => {
   // * VARIABLES
-  const checked = task?.status !== 1;
+  const checked = task?.status === 1;
 
   const [isFormValid, setIsFormValid] = useState(false);
   const [isModalEditTaskOpen, setIsModalEditTaskOpen] = useState(false);

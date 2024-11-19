@@ -10,6 +10,7 @@ export interface TaskProps {
 
 export interface TaskHeaderProps {
   onClickAddTask: (data: FormDataAddTask) => void;
+  onClickFilterByStatus: (status: number) => void;
 }
 
 export interface TaskItemProps {

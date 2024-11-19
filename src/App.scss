@@ -53,6 +53,14 @@ body {
         & .button-text {
           @apply px-5 py-2.5 text-sm rounded-lg focus:ring-0 capitalize bg-purple-600 hover:bg-purple-700;
         }
+
+        & .select-container {
+          @apply py-3 px-4 pe-9 w-fit text-sm rounded-lg focus:ring-0 bg-purple-600 hover:bg-purple-700;
+
+          & option:disabled {
+            @apply text-sky-200 opacity-100 italic;
+          }
+        }
       }
     }
 

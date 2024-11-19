@@ -4,8 +4,9 @@ import { FormDataAddTask } from '../../../types/modal';
 import { TaskHeaderProps } from '../../../types/todo-list';
 import { Button } from '../../Button/Button';
 import { Modal } from '../../Modal/Modal';
+import { Select } from '../../Select/Select';
 
-export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickAddTask }) => {
+export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickAddTask, onClickFilterByStatus }) => {
   // * VARIABLES
   const [isFormValid, setIsFormValid] = useState(false);
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
@@ -18,11 +19,6 @@ export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickAddTask }) => {
   });
 
   // * ARROWs
-  const reset = () => {
-    localStorage.setItem('tasks', '');
-    window.location.reload();
-  };
-
   const clearFormData = () => {
     setFormData({ name: '', datetime: '', description: '', status: 0 });
   };
@@ -55,21 +51,23 @@ export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickAddTask }) => {
     setIsModalAddTaskOpen(false);
   };
 
+  const handleOnClickFilterByStatus = (status: number) => {
+    onClickFilterByStatus(status);
+  };
+
   return (
     <>
       <div className='task-header-container'>
         <h1 className='title'>todo list</h1>
 
         <div className='actions'>
-          <Button text='reset' customClass='button-text' onClick={() => reset()} />
           <Button text='add task' customClass='button-text' onClick={() => handleOnClickModalAddTask()} />
-
-          {/* criar componente isolado */}
-          <select name='filterTask' id='filterTask'>
-            <option value=''>all</option>
-            <option value='1'>todo</option>
-            <option value='3'>completed</option>
-          </select>
+          <Select
+            defaultOption='Filtrar tarefas'
+            options={['All', 'Todo', 'Completed']}
+            values={[-1, 0, 1]}
+            onChange={(status) => handleOnClickFilterByStatus(status)}
+          />
         </div>
       </div>
 
