@@ -5,8 +5,9 @@ import { TaskHeaderProps } from '../../../types/todo-list';
 import { Button } from '../../Button/Button';
 import { Modal } from '../../Modal/Modal';
 import { Select } from '../../Select/Select';
+import { SearchBar } from '../../SearchBar/SearchBar';
 
-export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickAddTask, onClickFilterByStatus }) => {
+export const TaskHeader: React.FC<TaskHeaderProps> = ({ onChangeSearch, onClickAddTask, onClickFilterByStatus }) => {
   // * VARIABLES
   const [isFormValid, setIsFormValid] = useState(false);
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
@@ -37,6 +38,10 @@ export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickAddTask, onClickF
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const handleOnChangeSearch = (search: string) => {
+    onChangeSearch(search)
+  };
+
   const validateForm = () => {
     setIsFormValid(Object?.values(formData)?.every((value) => String(value)?.trim() !== ''));
   };
@@ -61,13 +66,18 @@ export const TaskHeader: React.FC<TaskHeaderProps> = ({ onClickAddTask, onClickF
         <h1 className='title'>todo list</h1>
 
         <div className='actions'>
-          <Button text='add task' customClass='button-text' onClick={() => handleOnClickModalAddTask()} />
-          <Select
-            defaultOption='Filtrar tarefas'
-            options={['All', 'Todo', 'Completed']}
-            values={[-1, 0, 1]}
-            onChange={(status) => handleOnClickFilterByStatus(status)}
-          />
+          <div className='line'>
+            <Button text='add task' customClass='button-text' onClick={() => handleOnClickModalAddTask()} />
+            <Select
+              defaultOption='Filtrar tarefas'
+              options={['All', 'Todo', 'Completed']}
+              values={[-1, 0, 1]}
+              onChange={(status) => handleOnClickFilterByStatus(status)}
+            />
+          </div>
+          <div className='line'>
+            <SearchBar buttonLabel="pesquisar" placeholder='Pesquisar tarefas' onChange={(search) => handleOnChangeSearch(search)} />
+          </div>
         </div>
       </div>
 

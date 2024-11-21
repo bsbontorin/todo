@@ -9,6 +9,7 @@ export interface TaskProps {
 }
 
 export interface TaskHeaderProps {
+  onChangeSearch: (search: string) => void;
   onClickAddTask: (data: FormDataAddTask) => void;
   onClickFilterByStatus: (status: number) => void;
 }

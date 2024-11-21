@@ -47,18 +47,23 @@ body {
       }
 
       & .actions {
-        @extend %flex-center-between;
-        @apply w-full;
+        @extend %flex-center-center;
+        @apply w-full flex-col;
 
-        & .button-text {
-          @apply px-5 py-2.5 text-sm rounded-lg focus:ring-0 capitalize bg-purple-600 hover:bg-purple-700;
-        }
+        & .line {
+          @extend %flex-center-between;
+          @apply w-full;
 
-        & .select-container {
-          @apply py-3 px-4 pe-9 w-fit text-sm rounded-lg focus:ring-0 bg-purple-600 hover:bg-purple-700;
+          & .button-text {
+            @apply px-5 py-2.5 text-sm rounded-lg focus:ring-0 capitalize bg-purple-600 hover:bg-purple-700;
+          }
 
-          & option:disabled {
-            @apply text-sky-200 opacity-100 italic;
+          & .select-container {
+            @apply py-3 px-4 pe-9 w-fit text-sm rounded-lg focus:ring-0 bg-purple-600 hover:bg-purple-700;
+
+            & option:disabled {
+              @apply text-sky-200 opacity-100 italic;
+            }
           }
         }
       }
@@ -115,6 +120,37 @@ body {
           }
         }
       }
+    }
+  }
+}
+
+.search-bar-container {
+  @extend %flex-center-center;
+  @apply w-full mt-4;
+
+  & .form-group {
+    @extend %flex-center-center;
+    @apply relative w-full;
+
+    & .label {
+      @extend %flex-center-center;
+      @apply w-full relative;
+
+      & .icon {
+        @apply absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none;
+
+        & .svg {
+          @apply w-4 h-4;
+        }
+      }
+
+      & .input {
+        @apply p-4 ps-10 w-full rounded-lg focus:ring-0 focus:outline-0  bg-gray-800;
+      }
+    }
+
+    & .button {
+      @apply px-5 py-2.5 absolute end-2.5 bottom-2.5 text-sm rounded-lg focus:ring-0 capitalize bg-purple-600 hover:bg-purple-700;
     }
   }
 }

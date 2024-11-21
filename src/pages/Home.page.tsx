@@ -9,12 +9,17 @@ import { TaskProps } from '../types/todo-list';
 
 export const Home: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState<Array<number>>([]);
+  const [filterSearch, setFilterSearch] = useState<string>('');
 
   const [tasks, setTasks] = useState<Array<TaskProps>>(() => {
     const savedTasks = localStorage.getItem('tasks');
     return savedTasks ? JSON.parse(savedTasks) : baseTasks;
   });
   useEffect(() => localStorage.setItem('tasks', JSON.stringify(tasks)), [tasks]);
+
+  const handleOnChangeSearch = (search: string) => {
+    setFilterSearch(search);
+  };
 
   const handleOnClickAddTask = (data: FormDataAddTask) => {
     setTasks((prevTasks) => [...prevTasks, { id: String(prevTasks?.length), ...data }]);
@@ -38,16 +43,25 @@ export const Home: React.FC = () => {
 
   const getVisibleTasks = () => {
     if (!filterStatus?.length) {
-      return tasks?.filter(({ status }) => status !== 3) || [];
+      return tasks?.filter(({ name, description, status }) => [name, description]?.some((item) => item?.includes(filterSearch)) && status !== 3) || [];
     }
-    return tasks?.filter(({ status }) => filterStatus?.includes(status) || (filterStatus?.includes(-1) && status !== 3)) || [];
+    return (
+      tasks?.filter(
+        ({ name, description, status }) =>
+          [name, description]?.some((item) => item?.includes(filterSearch)) && (filterStatus?.includes(status) || (filterStatus?.includes(-1) && status !== 3)),
+      ) || []
+    );
   };
 
   return (
     <DefaultLayout>
       <section className='home-container'>
         <div className='content'>
-          <TaskHeader onClickAddTask={(formData) => handleOnClickAddTask(formData)} onClickFilterByStatus={(status) => handleOnClickFilterByStatus([status])} />
+          <TaskHeader
+            onChangeSearch={(search) => handleOnChangeSearch(search)}
+            onClickAddTask={(formData) => handleOnClickAddTask(formData)}
+            onClickFilterByStatus={(status) => handleOnClickFilterByStatus([status])}
+          />
           <TaskList
             tasks={getVisibleTasks()}
             onClickEditTask={(task) => handleOnClickEditTask(task)}
