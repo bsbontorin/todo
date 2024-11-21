@@ -19,6 +19,14 @@ body {
   & .header-container {
     @extend %flex-center-between;
     @apply w-full p-4 box-border border-b border-solid border-zinc-800;
+
+    & .menu {
+      @apply w-fit;
+
+      & .list {
+        @apply gap-4 flex flex-row;
+      }
+    }
   }
 
   & .footer-container {
@@ -32,7 +40,7 @@ body {
 }
 
 .home-container {
-  @extend %flex-center-center;
+  @extend %flex-center-start;
   @apply w-full flex-col flex-grow;
 
   & .content {
@@ -119,6 +127,28 @@ body {
             }
           }
         }
+      }
+    }
+  }
+}
+
+.recycle-container {
+  @extend %flex-center-center;
+  @apply w-full flex-col;
+
+  & .content {
+    @apply gap-4 w-full h-full grid grid-cols-2 grid-rows-[auto_1fr];
+
+    & .title {
+      @apply text-center;
+    }
+
+    & .drag-drop-container {
+      @extend %flex-center-start;
+      @apply flex-col w-full flex-grow border-2 border-dashed p-0.5 gap-1 rounded;
+
+      & .item {
+        @apply p-2 w-full bg-gray-700 rounded cursor-move;
       }
     }
   }
